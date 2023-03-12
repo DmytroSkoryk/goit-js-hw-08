@@ -10,14 +10,19 @@ updateOutput();
 
 function onFormSubmit (event){
     event.preventDefault();
-    const formData = new FormData(form);
-    formData.forEach((value, name) => console.log(value, name));
+    const {email, message} = form.elements;
+    console.log({ email:email.value, message:message.value })
+    if (email.value === '' || message.value === '') {
+      return alert(`Всі поля повинні бути заповнені!`);
+    }
     form.reset();
     localStorage.removeItem(LOCALSTORAGE_KEY); 
   };
 
-  const inputData = {};
+ 
   function onFormInput(event) {
+    let inputData = localStorage.getItem(LOCALSTORAGE_KEY);
+    inputData = inputData ? JSON.parse(inputData) : {};
     inputData[event.target.name] = event.target.value;
     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(inputData));
   }
